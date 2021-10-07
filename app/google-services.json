@@ -1,0 +1,270 @@
+{
+  "project_info": {
+    "project_number": "188512950731",
+    "firebase_url": "https://chaljabhai-3f07d.firebaseio.com",
+    "project_id": "chaljabhai-3f07d",
+    "storage_bucket": "chaljabhai-3f07d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:18b43e8d7ced741ed93e4e",
+        "android_client_info": {
+          "package_name": "com.baumblatt.capacitor.firebase.auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:5bb6a4a625d1a9cdd93e4e",
+        "android_client_info": {
+          "package_name": "com.dji.ux.console"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-kje154na30je98robgfoj30nj373ibki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dji.ux.console",
+            "certificate_hash": "30c5817d6ad0271877965acbe96c53a64d794e4d"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:5ffb4c6a92496f7cd93e4e",
+        "android_client_info": {
+          "package_name": "com.dji.ux.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-1fih1qpfpjbhctogu5gtvfmejrkg8cl4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dji.ux.sample",
+            "certificate_hash": "6dd069a2d78ec6f68d5e0701665d5973d84b6039"
+          }
+        },
+        {
+          "client_id": "188512950731-bgen2emt6ne0jvk79hmol4k5puegabvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dji.ux.sample",
+            "certificate_hash": "30c5817d6ad0271877965acbe96c53a64d794e4d"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:1da569755d614124d93e4e",
+        "android_client_info": {
+          "package_name": "com.dji.ux.vizzbee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-9db38smn851eeh0j2t1tppusktro2vjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dji.ux.vizzbee",
+            "certificate_hash": "30c5817d6ad0271877965acbe96c53a64d794e4d"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:94df5fb2d42c8d39d93e4e",
+        "android_client_info": {
+          "package_name": "com.example.mapboxapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-mpqno35pntsv6tisjmo56vm1psstf1ke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mapboxapp",
+            "certificate_hash": "acaea71c1d257ff20b407ddf25d43db8a5c238bf"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:3e7fa25611ba6bc4d93e4e",
+        "android_client_info": {
+          "package_name": "com.memiah.contact.tracer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-dgci4s4flmdga30ltjjp5jjqhvud3g4f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.memiah.contact.tracer",
+            "certificate_hash": "30c5817d6ad0271877965acbe96c53a64d794e4d"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188512950731:android:1c91eba5b15ab107d93e4e",
+        "android_client_info": {
+          "package_name": "ml.kirtish.fiot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188512950731-mesk5arghr9niigrg53sol8p3enu3rkj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ml.kirtish.fiot",
+            "certificate_hash": "30c5817d6ad0271877965acbe96c53a64d794e4d"
+          }
+        },
+        {
+          "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWIC_j8fE7ConhtMdSCpPGkCMcQTITUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188512950731-kmp6ntff0pp3t0h2h65l7b8lgiolh9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
