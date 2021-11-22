@@ -8,10 +8,13 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,13 +28,18 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
 import com.google.firebase.ktx.initialize
+import com.google.android.gms.maps.model.LatLng
+
+import com.google.android.gms.maps.model.PolylineOptions
+
+
+
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -42,6 +50,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val droneMap: HashMap<String, MyLocation> = HashMap<String, MyLocation>()
     private val database = Firebase.database
     private var secondaryDatabase: FirebaseDatabase? = null
+    var droneMarker: com.google.android.gms.maps.model.Marker? = null
+    var polyline: Polyline? = null
 
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -79,8 +89,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val secondary = Firebase.app("secondary")
 // Get the database for the other app.
         secondaryDatabase = Firebase.database(secondary)
-
-        readFireBase()
     }
 
     /**
@@ -126,74 +134,103 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         droneDetailsPopupBinding.droneNameTv.text = myLocation.droneName
         droneDetailsPopupBinding.pilotNameTv.text = myLocation.pilotName
         droneDetailsPopupBinding.emailTv.text = myLocation.email
-        if (myLocation.rth){
-            droneDetailsPopupBinding.rthButton.setCardBackgroundColor(Color.LTGRAY)
-            droneDetailsPopupBinding.rthButton.isEnabled = false
-        }else{
-            droneDetailsPopupBinding.rthButton.setOnClickListener {
-                droneDetailsPopupBinding.rthButton.setCardBackgroundColor(Color.LTGRAY)
-                droneDetailsPopupBinding.rthButton.isEnabled = false
-                dialog.dismiss()
-                Toast.makeText(this, "${myLocation.droneName} is returning to launch station ....",Toast.LENGTH_SHORT).show()
-                if (myLocation.droneName == "drone1hex"){
-                    editRTHSecondary(myLocation.droneName)
-                }else{
-                    editRTH(myLocation.uuid)
-                }
-            }
-        }
+//        if (myLocation.rth == "true"){
+//            droneDetailsPopupBinding.rthButton.setCardBackgroundColor(Color.LTGRAY)
+//            droneDetailsPopupBinding.rthButton.isEnabled = false
+//        }else{
+//            droneDetailsPopupBinding.rthButton.setOnClickListener {
+//                droneDetailsPopupBinding.rthButton.setCardBackgroundColor(Color.LTGRAY)
+//                droneDetailsPopupBinding.rthButton.isEnabled = false
+//                dialog.dismiss()
+//                Toast.makeText(this, "${myLocation.droneName} is returning to launch station ....",Toast.LENGTH_SHORT).show()
+//                if (myLocation.droneName == "drone1hex"){
+//                    editRTHSecondary(myLocation.droneName)
+//                }else{
+//                    editRTH(myLocation.uuid)
+//                }
+//            }
+//        }
         dialog.show()
 
     }
 
     private fun editRTH(uuid: String) {
         val myRef = database.getReference("users").child(uuid).ref
-        myRef.child("rth").setValue(true).addOnFailureListener {
+        myRef.child("rth").setValue("true").addOnFailureListener {
             Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun editRTHSecondary(uuid: String) {
         val myRef = secondaryDatabase!!.getReference("server").child(uuid).ref
-        myRef.child("command").child("RTL").setValue(true).addOnFailureListener {
+        myRef.child("command").child("RTL").setValue("true").addOnFailureListener {
             Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun readFireBase() {
+    private fun readFireBase(user: LatLng) {
         val myRef = database.getReference("users")
         val droneList = arrayListOf(
-            "0PCTvAIUfqOZMuqJnzmtcEbMG4n2"
+            "lnOjW9a61nOHI4LJdZMEgevmGRh1"
         )
 
         // Read from the database
         myRef.addValueEventListener(object : ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (drone in droneList) {
-                    val lat = dataSnapshot.child(drone).child("position")
+                    val lat = dataSnapshot.child(drone).child("data").child("phone")
                         .child("lat").value
-                    val lon = dataSnapshot.child(drone).child("position")
+                    val lon = dataSnapshot.child(drone).child("data").child("phone")
                         .child("lon").value
-                    val droneName =
-                        dataSnapshot.child(drone).child("drone_name").value
-                    val uuid = dataSnapshot.child(drone).child("uuid").value
-                    val email = dataSnapshot.child(drone).child("email").value
-                    val alt = dataSnapshot.child(drone).child("Altitude").value
-                    val rth = dataSnapshot.child(drone).child("rth").value
+                    val droneName = drone
+                    val uuid = dataSnapshot.child(drone).child("user").child("userId").value
+                    val email = dataSnapshot.child(drone).child("user").child("email").value
+                    val alt = dataSnapshot.child(drone).child("data").child("Altitude").value
+                    val rth = dataSnapshot.child(drone).child("command").child("RTH").value
                     val myLocation = MyLocation(
                         uuid = uuid as String,
                         droneName = droneName as String,
                         email = email as String,
                         lat = lat as Double,
                         lon = lon as Double,
-                        alt = alt as Double,
-                        rth = rth as Boolean
+                        alt = alt as String,
+                        rth = rth as String
                     )
                     droneMap.put(droneName as String, myLocation)
-                    val marker = Marker(mMap, this@MapsActivity)
-                    marker.addMarker(LatLng(myLocation.lat, myLocation.lon), droneName as String)
+
+                    if (droneMarker == null){
+                        droneMarker = mMap.addMarker(
+                            MarkerOptions().position(LatLng(myLocation.lat, myLocation.lon)).title(droneName as String)
+                                .icon(bitmapDescriptorFromVector(this@MapsActivity, R.drawable.ic_drone))
+                        )
+                    }else{
+                        droneMarker!!.position = LatLng(myLocation.lat, myLocation.lon)
+                    }
+
+//                    val marker = Marker(mMap, this@MapsActivity)
+//                    marker.addMarker(LatLng(myLocation.lat, myLocation.lon), droneName as String)
+
+                    //
+                    val results = FloatArray(1)
+                    Location.distanceBetween(
+                        myLocation.lat, myLocation.lon,
+                        user.latitude, user.longitude,
+                        results
+                    )
+                    binding.distanceTV.text = "Distance:  ${String.format("%.2f",results[0]/1000)} km"
+                    val eta = formatTime(String.format("%.0f",results[0]/22.352).toLong())
+                    binding.timeTV.text = "ETA:  $eta"
+
+                    // Lines
+                    val options = PolylineOptions().width(5f).color(getColor(R.color.blue)).geodesic(true).jointType(JointType.ROUND)
+                    options.add(user)
+                    options.add(LatLng(myLocation.lat, myLocation.lon))
+                    polyline?.remove()
+                    polyline = mMap.addPolyline(options)
+
                 }
                 Log.d(TAG, "Value is: ${dataSnapshot.value}")
             }
@@ -203,45 +240,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
         })
-        readSecondaryDrone()
+//        readSecondaryDrone()
     }
 
     private fun readSecondaryDrone(){
-        val ref = secondaryDatabase!!.getReference("server")
-        ref.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                val droneName = "drone1hex"
-                val lat = snapshot.child(droneName).child("data")
-                    .child("lat").value
-                val lon = snapshot.child(droneName).child("data")
-                    .child("lon").value
-                val uuid = "drone1hex"
-                val email = "NA"
-                val alt = snapshot.child(droneName).child("data")
-                    .child("alt").value
-                val rth = snapshot.child(droneName).child("command")
-                    .child("RTL").value
-
-                val myLocation = MyLocation(
-                    uuid = uuid as String,
-                    droneName = droneName as String,
-                    email = email as String,
-                    lat = lat as Double,
-                    lon = lon as Double,
-                    alt = alt as Double,
-                    rth = rth as Boolean
-                )
-
-                droneMap.put(droneName as String, myLocation)
-                val marker = Marker(mMap, this@MapsActivity)
-                marker.addMarker(LatLng(myLocation.lat, myLocation.lon), droneName as String)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("MMM", error.message)
-            }
-        })
+//        val ref = secondaryDatabase!!.getReference("server")
+//        ref.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                val droneName = "drone1hex"
+//                val lat = snapshot.child(droneName).child("data")
+//                    .child("lat").value
+//                val lon = snapshot.child(droneName).child("data")
+//                    .child("lon").value
+//                val uuid = "drone1hex"
+//                val email = "NA"
+//                val alt = snapshot.child(droneName).child("data")
+//                    .child("alt").value
+//                val rth = snapshot.child(droneName).child("command")
+//                    .child("RTL").value
+//
+//                val myLocation = MyLocation(
+//                    uuid = uuid as String,
+//                    droneName = droneName as String,
+//                    email = email as String,
+//                    lat = lat as Double,
+//                    lon = lon as Double,
+//                    alt = alt as Double,
+//                    rth = rth as String
+//                )
+//
+//                droneMap.put(droneName as String, myLocation)
+//                val marker = Marker(mMap, this@MapsActivity)
+//                marker.addMarker(LatLng(myLocation.lat, myLocation.lon), droneName as String)
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.d("MMM", error.message)
+//            }
+//        })
     }
 
     private fun fetchLocation() {
@@ -265,7 +302,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // Add a marker in Sydney and move the camera
                 val user = LatLng(it.latitude, it.longitude)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user, 15f))
+                readFireBase(user)
             }
+        }
+    }
+
+    fun formatTime(secs: Long): String {
+        return String.format("%02d:%02d:%02d", secs / 3600, secs % 3600 / 60, secs % 60)
+    }
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
         }
     }
 }

@@ -7,7 +7,7 @@ data class MyLocation(
     val email: String,
     val lat: Double,
     val lon: Double,
-    val alt: Double,
-    val rth: Boolean
+    val alt: String,
+    val rth: String
 ){
 }
