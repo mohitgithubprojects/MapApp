@@ -40,19 +40,31 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
         binding.openButton.setOnClickListener {
-            if (allPermissionsGranted()) {
-                openMap()
-            } else {
-                ActivityCompat.requestPermissions(
-                    this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-                )
-            }
+            openMap()
+        }
+
+        binding.openButton3.setOnClickListener {
+            openMap()
+        }
+
+        binding.orderBtn.setOnClickListener {
+            openMap()
+        }
+
+        binding.orderBtn2.setOnClickListener {
+            openMap()
         }
 
     }
 
     private fun openMap() {
-        startActivity(Intent(this, MapsActivity::class.java))
+        if (allPermissionsGranted()) {
+            startActivity(Intent(this, ProgressActivity::class.java))
+        } else {
+            ActivityCompat.requestPermissions(
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
+        }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

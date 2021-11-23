@@ -50,7 +50,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val droneMap: HashMap<String, MyLocation> = HashMap<String, MyLocation>()
     private val database = Firebase.database
     private var secondaryDatabase: FirebaseDatabase? = null
-    var droneMarker: com.google.android.gms.maps.model.Marker? = null
+    var droneMarker: Marker? = null
     var polyline: Polyline? = null
 
     companion object {
@@ -210,6 +210,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         droneMarker!!.position = LatLng(myLocation.lat, myLocation.lon)
                     }
 
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(myLocation.lat, myLocation.lon), 15f))
+
 //                    val marker = Marker(mMap, this@MapsActivity)
 //                    marker.addMarker(LatLng(myLocation.lat, myLocation.lon), droneName as String)
 
@@ -225,7 +227,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     binding.timeTV.text = "ETA:  $eta"
 
                     // Lines
-                    val options = PolylineOptions().width(5f).color(getColor(R.color.blue)).geodesic(true).jointType(JointType.ROUND)
+                    if(results[0]<10){
+                        binding.msgTV.text = "Your order has been reached near the drop location."
+                    }
+                    val options = PolylineOptions().width(10f).color(getColor(R.color.blue)).geodesic(true).jointType(JointType.ROUND)
                     options.add(user)
                     options.add(LatLng(myLocation.lat, myLocation.lon))
                     polyline?.remove()
@@ -301,7 +306,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.d("mohit", "${it.latitude} && ${it.longitude} && ${it.altitude}")
                 // Add a marker in Sydney and move the camera
                 val user = LatLng(it.latitude, it.longitude)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user, 15f))
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user, 15f))
                 readFireBase(user)
             }
         }
